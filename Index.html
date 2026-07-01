@@ -150,10 +150,6 @@ section{padding:80px 0;}
 .lightbox.open{display:flex;}
 .lightbox img{max-width:90vw;max-height:85vh;border-radius:14px;}
 
-/* Floating decorative layer */
-.decor-layer{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;}
-.decor-layer img{position:absolute;opacity:.55;animation:drift 9s ease-in-out infinite;}
-@keyframes drift{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-16px) rotate(8deg);}}
 section{position:relative;}
 section > .container, section > .form-wrap{position:relative;z-index:1;}
 
@@ -415,7 +411,7 @@ footer a{color:var(--rose-deep);font-weight:600;}
 
 <script>
 // ---- Real work photos in gallery ----
-const workPhotos = Array.from({length:9},(_,i)=>`assets/work_${i}.png`);
+const workPhotos = Array.from({length:8},(_,i)=>`assets/work_${i}.jpg`);
 const galleryGrid = document.getElementById('galleryGrid');
 workPhotos.forEach(src=>{
   const d=document.createElement('div');
@@ -430,29 +426,6 @@ workPhotos.forEach(src=>{
   galleryGrid.appendChild(d);
 });
 
-// ---- Floating decorative layer (kawaii icons / crystal / axolotl) ----
-const floatAssets = [
-  ...Array.from({length:10},(_,i)=>`assets/float_kawaii_${i}.png`),
-  'assets/float_crystal.png','assets/float_axolotl.png'
-];
-document.querySelectorAll('section').forEach(sec=>{
-  const layer=document.createElement('div');
-  layer.className='decor-layer';
-  const n = 4 + Math.floor(Math.random()*3);
-  for(let i=0;i<n;i++){
-    const img=document.createElement('img');
-    img.src = floatAssets[Math.floor(Math.random()*floatAssets.length)];
-    const size = 20+Math.random()*22;
-    img.style.width=size+'px';
-    img.style.left = (Math.random()*92)+'%';
-    img.style.top = (Math.random()*88)+'%';
-    img.style.animationDelay = (Math.random()*6)+'s';
-    img.style.animationDuration = (7+Math.random()*5)+'s';
-    layer.appendChild(img);
-  }
-  sec.prepend(layer);
-});
-
 // ---- Bag scroll animation (pouch/bowler style) ----
 const bagSection = document.getElementById('bagSection');
 const bag3d = document.getElementById('bag3d');
@@ -460,15 +433,13 @@ const bagFlap = document.getElementById('bagFlap');
 const burstLayer = document.getElementById('burstLayer');
 const peekText = document.getElementById('peekText');
 
-const burstAssets = [
-  ...[2,5,8,11,14,17,20,23,26,29].map(i=>`assets/bag_grid_rows_${i}.png`),
-  'assets/bag_gold_nail.png','assets/bag_glitter_cluster.png','assets/bag_nude_cluster.png',
-  ...[3,9,15,21,27,33].map(i=>`assets/bag_tools_cluster_${i}.png`)
-];
+// 4 cut-out product shots, repeated to fill the burst
+const burstBase = ['assets/bag_item_0.png','assets/bag_item_1.png','assets/bag_item_2.png','assets/bag_item_3.png'];
+const burstAssets = Array.from({length:12},(_,i)=>burstBase[i%burstBase.length]);
 const bursts = burstAssets.map((src,i)=>{
   const el=document.createElement('div');
   el.className='burst-item';
-  const size = 50+Math.random()*58;
+  const size = 60+Math.random()*60;
   el.style.width=size+'px'; el.style.height=size+'px';
   el.style.left = (105+Math.random()*70-35)+'px';
   el.style.top = '150px';
@@ -496,19 +467,14 @@ let current = 0;
 function onScroll(){
   const rect = bagSection.getBoundingClientRect();
   const total = rect.height - window.innerHeight;
-  // react from far away: the sequence is already underway well before the
-  // bag reaches the top of the screen, not only once it's fully in view
   const lead = window.innerHeight * 1.1;
   let progress = (lead - rect.top) / (lead + total);
   targetProgress = Math.max(0, Math.min(1, progress));
 }
 
-// single animation loop: eases toward the scroll target every frame for a
-// weighted, fluid motion instead of snapping 1:1 to scroll position
 function animate(t){
   current += (targetProgress-current)*0.085;
 
-  // phase 1 (0-0.3): bag tilts and settles into frame, with a subtle zoom
   const tiltRaw = Math.min(1, current/0.3);
   const tilt = easeOutCubic(tiltRaw);
   const ry = -34 + 34*tilt;
@@ -518,13 +484,11 @@ function animate(t){
   const rz = (1-tiltRaw) * -4;
   bag3d.style.transform = `translateY(${travelY}px) scale(${scale}) rotateY(${ry}deg) rotateX(${rx}deg) rotateZ(${rz}deg)`;
 
-  // phase 2 (0.28-0.46): flap pops open with a slight overshoot, not a flat swing
   const openRaw = Math.max(0, Math.min(1, (current-0.28)/0.18));
   const openT = easeOutBack(openRaw);
   bagFlap.style.transform = `translateZ(8px) rotateX(${-openT*132}deg)`;
   peekText.style.opacity = openRaw>0.3 ? 1 : 0;
 
-  // phase 3 (0.38-0.85): items pop out and settle (no falling)
   const burstT = Math.max(0, Math.min(1, (current-0.38)/0.47));
   bursts.forEach(b=>{
     const local = Math.max(0, Math.min(1, (burstT-b.delay)/(1-b.delay)));
