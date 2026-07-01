@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>nailedbyycarla</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700&family=Petit+Formal+Script&display=swap" rel="stylesheet">
+<style>
+:root{
+  --wash:#FFC9E2;
+  --white:#FFFFFF;
+  --rose:#FF6FAE;
+  --rose-deep:#B8005C;
+  --ink:#231018;
+  --pearl:#F3D9E4;
+  --line:#FFC9E2;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Manrope',sans-serif;color:var(--ink);background:var(--white);}
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;letter-spacing:-0.01em;color:#7A1442;}
+.script{font-family:'Petit Formal Script',cursive;color:var(--rose-deep);}
+.hero .script{font-family:'Fraunces',serif;font-style:italic;font-weight:500;font-size:1.05em;color:var(--rose-deep);display:inline-block;letter-spacing:.01em;}
+.container{max-width:1080px;margin:0 auto;padding:0 24px;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+
+/* Top bar */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;max-width:1080px;margin:0 auto;}
+.logo{font-family:'Fraunces',serif;font-weight:600;font-size:1.15rem;}
+.book-btn{background:var(--rose-deep);color:#fff;padding:10px 22px;border-radius:100px;font-size:.85rem;font-weight:600;cursor:pointer;border:none;}
+.book-btn:hover{background:#8f0048;}
+
+/* Hero */
+.hero{background:radial-gradient(circle at 50% 0%, var(--wash) 0%, #fff 65%);padding:70px 0 90px;text-align:center;}
+.avatar{width:150px;height:150px;border-radius:50%;margin:0 auto 28px;border:2px dashed var(--rose);display:flex;align-items:center;justify-content:center;background:#fff;text-align:center;font-size:.75rem;color:var(--rose-deep);padding:14px;line-height:1.3;}
+.eyebrow{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:10px;}
+.hero h1{font-size:clamp(2.4rem,6vw,3.6rem);}
+.hero p.sub{margin-top:16px;font-size:1.05rem;color:#6b565e;max-width:480px;margin-left:auto;margin-right:auto;}
+.hero .cta{margin-top:34px;}
+
+/* Section shell */
+section{padding:80px 0;}
+.section-head{text-align:center;margin-bottom:48px;}
+.section-head .eyebrow{color:var(--rose-deep);}
+.section-head h2{font-size:clamp(1.8rem,3.5vw,2.4rem);}
+
+/* Services */
+.explore-card{max-width:640px;margin:0 auto 0;border-radius:20px;background:var(--rose-deep);color:#fff;padding:30px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;transition:.25s;}
+.explore-card:hover{background:#8f0048;}
+.explore-card h3{font-size:1.25rem;}
+.explore-card p{font-size:.85rem;opacity:.85;margin-top:4px;}
+.explore-arrow{font-size:1.4rem;transition:.3s;}
+.explore-card.open .explore-arrow{transform:rotate(90deg);}
+.explore-card.open{display:none;}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;max-height:0;opacity:0;overflow:hidden;transition:max-height .5s ease, opacity .4s ease;margin-top:0;}
+.services-grid.open{max-height:900px;opacity:1;margin-top:32px;}
+.services-grid .svc-card{opacity:0;transform:translateY(16px);transition:opacity .45s ease, transform .45s ease;}
+.services-grid.open .svc-card{opacity:1;transform:translateY(0);}
+.services-grid.open .svc-card:nth-child(1){transition-delay:.05s;}
+.services-grid.open .svc-card:nth-child(2){transition-delay:.15s;}
+.services-grid.open .svc-card:nth-child(3){transition-delay:.25s;}
+.svc-book{margin-top:16px;width:100%;background:var(--rose-deep);color:#fff;border:none;padding:11px;border-radius:10px;font-weight:600;font-size:.85rem;cursor:pointer;}
+.svc-book:hover{background:#8f0048;}
+.svc-card{border:1px solid var(--line);border-radius:20px;padding:32px 26px;background:#fff;transition:.25s;position:relative;overflow:hidden;}
+.svc-card:hover{box-shadow:0 18px 40px -20px rgba(196,0,107,.35);transform:translateY(-4px);}
+.svc-card h3{font-size:1.3rem;margin-bottom:6px;}
+.svc-card .price-row{display:flex;justify-content:space-between;font-size:.95rem;padding:8px 0;border-top:1px solid var(--line);margin-top:14px;}
+.svc-card .note{font-size:.8rem;color:#8a747b;margin-top:12px;}
+.svc-card .tag{position:absolute;top:20px;right:20px;font-size:.7rem;background:var(--wash);color:var(--rose-deep);padding:4px 10px;border-radius:100px;}
+
+/* Care card (expandable) */
+.care-card{max-width:640px;margin:0 auto;border:1px solid var(--line);border-radius:20px;background:var(--wash);overflow:hidden;cursor:pointer;}
+.care-head{display:flex;align-items:center;justify-content:space-between;padding:26px 28px;}
+.care-head h3{font-size:1.2rem;}
+.care-arrow{transition:.3s;font-size:1.3rem;color:var(--rose-deep);}
+.care-card.open .care-arrow{transform:rotate(45deg);}
+.care-body{max-height:0;overflow:hidden;transition:max-height .4s ease;}
+.care-card.open .care-body{max-height:500px;}
+.care-body ul{padding:0 28px 28px;list-style:none;}
+.care-body li{padding:8px 0;border-top:1px solid rgba(196,0,107,.15);font-size:.92rem;}
+.care-body li:first-child{border-top:none;}
+
+/* Length & shape guide */
+.nail-card{max-width:640px;margin:0 auto;border:1px solid var(--line);border-radius:20px;background:#fff;overflow:hidden;cursor:pointer;transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;}
+.nail-card.open{transform:scale(1.015);box-shadow:0 22px 48px -20px rgba(184,0,92,.35);border-color:var(--rose);}
+.nail-card-head{display:flex;align-items:center;justify-content:space-between;padding:26px 28px;}
+.nail-card-head h3{font-size:1.2rem;}
+.nail-card-arrow{transition:transform .3s;font-size:1.3rem;color:var(--rose-deep);}
+.nail-card.open .nail-card-arrow{transform:rotate(45deg);}
+.nail-card-body{max-height:0;overflow:hidden;transition:max-height .55s ease;}
+.nail-card.open .nail-card-body{max-height:900px;}
+.nail-card-body-inner{padding:6px 28px 34px;}
+.guide-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:0 auto 40px;}
+.nail-swatch{text-align:center;}
+.nail-swatch svg{width:34px;height:54px;margin:0 auto 10px;display:block;filter:drop-shadow(0 4px 8px rgba(184,0,92,.18));}
+.nail-swatch.medio svg{height:70px;}
+.nail-swatch.largo svg{height:88px;}
+.nail-swatch span{font-size:.85rem;font-weight:600;color:var(--rose-deep);}
+.shapes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:18px;text-align:center;}
+.shape-item svg{width:36px;height:62px;margin:0 auto 10px;display:block;filter:drop-shadow(0 4px 8px rgba(184,0,92,.16));}
+.shape-item span{font-size:.8rem;color:#6b565e;font-weight:600;}
+.shape-item small{display:block;font-size:.7rem;color:#a98d95;font-weight:400;margin-top:2px;}
+.nail-card.open .shapes-grid .shape-item:nth-child(7){transition-delay:.58s;}
+.nail-card-body .nail-swatch,.nail-card-body .shape-item{opacity:0;transform:translateY(14px);transition:opacity .5s ease, transform .5s ease;}
+.nail-card.open .nail-card-body .nail-swatch,.nail-card.open .nail-card-body .shape-item{opacity:1;transform:translateY(0);}
+.nail-card.open .guide-row .nail-swatch:nth-child(1){transition-delay:.05s;}
+.nail-card.open .guide-row .nail-swatch:nth-child(2){transition-delay:.12s;}
+.nail-card.open .guide-row .nail-swatch:nth-child(3){transition-delay:.19s;}
+.nail-card.open .shapes-grid .shape-item:nth-child(1){transition-delay:.22s;}
+.nail-card.open .shapes-grid .shape-item:nth-child(2){transition-delay:.28s;}
+.nail-card.open .shapes-grid .shape-item:nth-child(3){transition-delay:.34s;}
+.nail-card.open .shapes-grid .shape-item:nth-child(4){transition-delay:.40s;}
+.nail-card.open .shapes-grid .shape-item:nth-child(5){transition-delay:.46s;}
+.nail-card.open .shapes-grid .shape-item:nth-child(6){transition-delay:.52s;}
+.shapes-divider{text-align:center;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--rose-deep);opacity:.7;margin:6px 0 18px;}
+
+/* Bag section */
+.bag-section{height:150vh;position:relative;background:linear-gradient(180deg,#fff,var(--wash) 35%,var(--wash) 65%,#fff);overflow:hidden;}
+.bag-sticky{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;}
+.bag-caption{position:absolute;top:60px;text-align:center;z-index:5;}
+.bag-caption .eyebrow{color:var(--rose-deep);}
+.peek-text{position:absolute;bottom:70px;font-family:'Petit Formal Script',cursive;font-size:2rem;color:var(--rose-deep);opacity:0;transition:opacity .4s;z-index:5;}
+.bag-stage{perspective:1000px;width:260px;height:300px;position:relative;}
+.bag3d{position:absolute;inset:0;transform-style:preserve-3d;}
+.handle{position:absolute;left:50%;top:36px;width:70px;height:60px;margin-left:-35px;border:9px solid var(--pearl);border-bottom:none;border-radius:50% 50% 0 0/100% 100% 0 0;filter:drop-shadow(0 2px 2px rgba(0,0,0,.15));}
+.handle.h1{transform:translateX(-22px) rotate(-6deg);}
+.handle.h2{transform:translateX(22px) rotate(6deg);}
+.pouch-back{position:absolute;left:50%;top:90px;width:190px;height:170px;margin-left:-95px;border-radius:50% 50% 46% 46%/60% 60% 40% 40%;background:linear-gradient(200deg,#8f0048,#6e0038);transform:translateZ(-30px) scale(.94);}
+.pouch-side{position:absolute;left:50%;top:90px;width:26px;height:170px;margin-left:75px;border-radius:0 40% 40% 0/0 60% 60% 0;background:linear-gradient(90deg,#96004d,#c4006b);transform:translateZ(-2px);}
+.pouch-front{position:absolute;left:50%;top:90px;width:190px;height:170px;margin-left:-95px;border-radius:50% 50% 46% 46%/60% 60% 40% 40%;background:
+    radial-gradient(circle at 32% 22%, rgba(255,255,255,.55) 0, transparent 40%),
+    linear-gradient(200deg,#FF6FAE,var(--rose-deep) 80%);
+  box-shadow:0 20px 34px -16px rgba(184,0,92,.55);transform:translateZ(6px);}
+.pouch-front::after{content:'';position:absolute;inset:10px 10px auto 10px;height:2px;background:rgba(255,255,255,.35);border-radius:2px;top:34px;}
+.flap{position:absolute;left:50%;top:66px;width:190px;height:78px;margin-left:-95px;background:linear-gradient(200deg,#FF8AC0,var(--rose-deep));border-radius:50% 50% 40% 40%/100% 100% 30% 30%;transform-origin:top center;transform:translateZ(8px) rotateX(0deg);box-shadow:0 6px 14px rgba(0,0,0,.18);}
+.clasp{position:absolute;left:50%;top:128px;width:16px;height:16px;margin-left:-8px;background:var(--pearl);border-radius:50%;box-shadow:0 2px 4px rgba(0,0,0,.25);transform:translateZ(10px);}
+.burst-item{position:absolute;opacity:0;pointer-events:none;will-change:transform,opacity;}
+.burst-item img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 10px rgba(0,0,0,.18));}
+
+/* Gallery */
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.g-item{aspect-ratio:1/1;border-radius:14px;overflow:hidden;cursor:pointer;transition:.25s;box-shadow:0 10px 24px -14px rgba(196,0,107,.4);}
+.g-item img{width:100%;height:100%;object-fit:cover;transition:.3s;}
+.g-item:hover img{transform:scale(1.08);}
+@media(max-width:640px){.gallery-grid{grid-template-columns:repeat(2,1fr);}}
+.lightbox{position:fixed;inset:0;background:rgba(35,16,24,.85);display:none;align-items:center;justify-content:center;z-index:100;padding:24px;}
+.lightbox.open{display:flex;}
+.lightbox img{max-width:90vw;max-height:85vh;border-radius:14px;}
+
+/* Floating decorative layer */
+.decor-layer{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;}
+.decor-layer img{position:absolute;opacity:.55;animation:drift 9s ease-in-out infinite;}
+@keyframes drift{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-16px) rotate(8deg);}}
+section{position:relative;}
+section > .container, section > .form-wrap{position:relative;z-index:1;}
+
+/* Reviews */
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;}
+.review-card{background:var(--wash);border-radius:18px;padding:26px;}
+.stars{margin-bottom:12px;display:flex;gap:3px;}
+.stars svg{width:17px;height:17px;fill:var(--rose);}
+.review-card p{font-family:'Fraunces',serif;font-style:italic;font-weight:500;font-size:1.05rem;line-height:1.5;color:var(--rose-deep);}
+.review-card .who{margin-top:14px;font-size:.8rem;font-weight:600;color:var(--rose-deep);}
+
+/* Booking form */
+.booking{background:var(--ink);color:#fff;}
+.booking .section-head h2{color:#fff;}
+.booking .section-head .eyebrow{color:var(--pearl);}
+.form-wrap{max-width:520px;margin:0 auto;display:grid;gap:14px;}
+.form-wrap input,.form-wrap select,.form-wrap textarea{width:100%;padding:13px 16px;border-radius:12px;border:1px solid #4a3a41;background:#3a2c32;color:#fff;font-family:inherit;font-size:.92rem;}
+.form-wrap textarea{min-height:90px;resize:vertical;}
+.form-wrap label{font-size:.75rem;color:#cba9b3;margin-bottom:2px;display:block;}
+.submit-btn{background:var(--rose-deep);color:#fff;padding:15px;border-radius:12px;border:none;font-weight:700;font-size:.95rem;cursor:pointer;margin-top:8px;}
+.submit-btn:hover{background:#8f0048;}
+
+footer{text-align:center;padding:40px 24px;font-size:.85rem;color:#8a747b;}
+footer a{color:var(--rose-deep);font-weight:600;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="logo">nailedbyy<span class="script" style="font-size:1.3rem;">carla</span></div>
+    <button class="book-btn" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Reservar</button>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="container">
+    <div class="avatar">📸<br>Sube tu foto aquí</div>
+    <div class="eyebrow">Nail artist · Santa Cruz</div>
+    <h1>Uñas con <span class="script" style="font-size:1.1em;">actitud</span>,<br>hechas a tu medida</h1>
+    <p class="sub">Gel X, press on y semipermanente. Cada set se diseña contigo, desde el largo hasta el último detalle.</p>
+    <div class="cta"><button class="book-btn" style="padding:14px 32px;font-size:.9rem;" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Reserva tu cita</button></div>
+  </div>
+</section>
+
+<section id="servicios">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Servicios</div>
+      <h2>Elige tu técnica</h2>
+    </div>
+
+    <div class="explore-card" id="exploreCard" onclick="openServices()">
+      <div>
+        <h3>Explora nuestros servicios</h3>
+        <p>Gel X, press on y semipermanente — toca para ver precios</p>
+      </div>
+      <span class="explore-arrow">→</span>
+    </div>
+
+    <div class="services-grid" id="servicesGrid">
+      <div class="svc-card">
+        <div class="tag">Duración: 3-4 semanas</div>
+        <h3>Gel X</h3>
+        <div class="price-row"><span>Cortas o medianas</span><strong>10€</strong></div>
+        <div class="price-row"><span>Largas</span><strong>13€</strong></div>
+        <div class="note">Precio base. Según el diseño puede subir.</div>
+        <button class="svc-book" onclick="bookService('Gel X')">Reservar ahora</button>
+      </div>
+      <div class="svc-card">
+        <div class="tag">Sin límar</div>
+        <h3>Press On</h3>
+        <div class="price-row"><span>Cortas o medianas</span><strong>8€</strong></div>
+        <div class="price-row"><span>Largas</span><strong>10€</strong></div>
+        <div class="note">Incluye pack completo para preparación y pega.</div>
+        <button class="svc-book" onclick="bookService('Press On')">Reservar ahora</button>
+      </div>
+      <div class="svc-card">
+        <div class="tag">Look natural</div>
+        <h3>Semipermanente</h3>
+        <div class="price-row"><span>Cortas o medianas</span><strong>6€</strong></div>
+        <div class="note">Precio base. Según el diseño puede subir.</div>
+        <button class="svc-book" onclick="bookService('Semipermanente')">Reservar ahora</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--wash);">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Prepárate</div>
+      <h2>Antes de tu cita</h2>
+    </div>
+    <div class="care-card" id="careCard" onclick="this.classList.toggle('open')">
+      <div class="care-head">
+        <h3>Toca para ver qué tener en cuenta</h3>
+        <span class="care-arrow">+</span>
+      </div>
+      <div class="care-body">
+        <ul>
+          <li>Llega con las uñas naturales, limpias y sin esmalte</li>
+          <li>Evita cremas o aceites en las manos ese día</li>
+          <li>Avísame antes si tienes alguna alergia o sensibilidad</li>
+          <li>Llega puntual — las citas tardías pueden acortar el diseño</li>
+          <li>Cancela o reprograma con al menos 24h de antelación</li>
+          <li>Trae referencias o fotos si tienes una idea clara del diseño</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Guía</div>
+      <h2>Largo y forma</h2>
+    </div>
+    <div class="nail-card" id="nailCard" onclick="this.classList.toggle('open')">
+      <div class="nail-card-head">
+        <h3>Toca para ver largo y forma</h3>
+        <span class="nail-card-arrow">+</span>
+      </div>
+      <div class="nail-card-body">
+        <div class="nail-card-body-inner">
+          <div class="guide-row">
+            <div class="nail-swatch corto">
+              <svg viewBox="0 0 40 70"><path d="M9,66 L9,30 Q9,10 20,8 Q31,10 31,30 L31,66 Z" style="fill:var(--wash);stroke:var(--rose-deep);stroke-width:1.5"/></svg>
+              <span>Corto</span>
+            </div>
+            <div class="nail-swatch medio">
+              <svg viewBox="0 0 40 70"><path d="M9,66 L9,24 Q9,6 20,4 Q31,6 31,24 L31,66 Z" style="fill:var(--wash);stroke:var(--rose-deep);stroke-width:1.5"/></svg>
+              <span>Medio</span>
+            </div>
+            <div class="nail-swatch largo">
+              <svg viewBox="0 0 40 70"><path d="M9,66 L9,18 Q9,3 20,2 Q31,3 31,18 L31,66 Z" style="fill:var(--wash);stroke:var(--rose-deep);stroke-width:1.5"/></svg>
+              <span>Largo</span>
+            </div>
+          </div>
+          <div class="shapes-divider">Formas</div>
+          <div class="shapes-grid">
+            <div class="shape-item cuadrada">
+              <svg viewBox="0 0 40 70"><path d="M9,66 L9,14 Q9,6 17,6 L23,6 Q31,6 31,14 L31,66 Z" style="fill:#fff;stroke:var(--rose-deep);stroke-width:1.6"/></svg>
+              <span>Cuadrada</span><small>Bordes rectos, look clásico</small>
+            </div>
+            <div class="shape-item squoval">
+              <svg viewBox="0 0 40 70"><path d="M9,66 L9,18 Q9,5 20,4 Q31,5 31,18 L31,66 Z" style="fill:#fff;stroke:var(--rose-deep);stroke-width:1.6"/></svg>
+              <span>Squoval</span><small>Cuadrada con esquinas suaves</small>
+            </div>
+            <div class="shape-item redonda">
+              <svg viewBox="0 0 40 70"><path d="M9,66 L9,28 A11,20 0 0 1 31,28 L31,66 Z" style="fill:#fff;stroke:var(--rose-deep);stroke-width:1.6"/></svg>
+              <span>Redonda</span><small>Sigue la forma natural del dedo</small>
+            </div>
+            <div class="shape-item almendrada">
+              <svg viewBox="0 0 40 70"><path d="M9,66 C9,66 9,32 9,28 C9,12 14,4 20,3 C26,4 31,12 31,28 C31,32 31,66 31,66 Z" style="fill:#fff;stroke:var(--rose-deep);stroke-width:1.6"/></svg>
+              <span>Almendrada</span><small>Afilada y elegante</small>
+            </div>
+            <div class="shape-item coffin">
+              <svg viewBox="0 0 40 70"><path d="M8,66 L8,30 L16,8 L24,8 L32,30 L32,66 Z" style="fill:#fff;stroke:var(--rose-deep);stroke-width:1.6;stroke-linejoin:round"/></svg>
+              <span>Coffin</span><small>Larga con punta plana</small>
+            </div>
+            <div class="shape-item stiletto">
+              <svg viewBox="0 0 40 70"><path d="M7,66 L15,66 L20,4 L25,66 L33,66 Z" style="fill:#fff;stroke:var(--rose-deep);stroke-width:1.6;stroke-linejoin:round"/></svg>
+              <span>Stiletto</span><small>Punta afilada y dramática</small>
+            </div>
+            <div class="shape-item ovalada">
+              <svg viewBox="0 0 40 70"><path d="M10,66 L10,22 Q10,4 20,4 Q30,4 30,22 L30,66 Z" style="fill:#fff;stroke:var(--rose-deep);stroke-width:1.6"/></svg>
+              <span>Ovalada</span><small>Suave y alargada</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="bag-section" id="bagSection">
+  <div class="bag-sticky">
+    <div class="bag-caption">
+      <div class="eyebrow">Un vistazo</div>
+      <h2>Sigue bajando</h2>
+    </div>
+    <div class="bag-stage">
+      <div class="bag3d" id="bag3d">
+        <div class="handle h1"></div>
+        <div class="handle h2"></div>
+        <div class="pouch-back"></div>
+        <div class="pouch-side"></div>
+        <div class="pouch-front"></div>
+        <div class="flap" id="bagFlap"></div>
+        <div class="clasp"></div>
+      </div>
+      <div id="burstLayer"></div>
+    </div>
+    <div class="peek-text" id="peekText">shh... echa un vistazo</div>
+  </div>
+</div>
+
+<section id="trabajos">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Portfolio</div>
+      <h2>Trabajos</h2>
+    </div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </div>
+</section>
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')"><img id="lightboxImg" src=""></div>
+
+<section style="background:var(--wash);">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Clientas</div>
+      <h2>Reseñas</h2>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card"><div class="stars"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L1.9 9.3l7.1-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L1.9 9.3l7.1-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L1.9 9.3l7.1-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L1.9 9.3l7.1-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L1.9 9.3l7.1-.7z"/></svg></div><p>"El diseño quedó exactamente como lo imaginé, súper detallista."</p><div class="who">— Clienta</div></div>
+      <div class="review-card"><div class="stars"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L1.9 9.3l7.1-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L1.9 9.3l7.1-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L1.9 9.3l7.1-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L1.9 9.3l7.1-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L1.9 9.3l7.1-.7z"/></svg></div><p>"Puntual, limpia y con un gusto increíble para los colores."</p><div class="who">— Clienta</div></div>
+      <div class="review-card"><div class="stars"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L1.9 9.3l7.1-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L1.9 9.3l7.1-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L1.9 9.3l7.1-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L1.9 9.3l7.1-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L1.9 9.3l7.1-.7z"/></svg></div><p>"Las press on me duraron semanas, calidad top."</p><div class="who">— Clienta</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="booking" id="booking">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Reserva</div>
+      <h2>Agenda tu cita</h2>
+    </div>
+    <div class="form-wrap">
+      <div><label>Tu nombre</label><input id="fName" type="text" placeholder="Nombre completo"></div>
+      <div><label>Teléfono</label><input id="fPhone" type="tel" placeholder="+34 ..."></div>
+      <div><label>Servicio</label>
+        <select id="fService">
+          <option>Gel X</option>
+          <option>Press On</option>
+          <option>Semipermanente</option>
+        </select>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div><label>Largo</label>
+          <select id="fLength"><option>Corto</option><option>Medio</option><option>Largo</option></select>
+        </div>
+        <div><label>Forma</label>
+          <select id="fShape"><option>Almendrada</option><option>Cuadrada</option><option>Ovalada</option><option>Stiletto</option><option>Coffin</option><option>Redonda</option></select>
+        </div>
+      </div>
+      <div><label>Diseño (describe o pega referencia)</label><textarea id="fDesign" placeholder="Freestyle, colores, inspiración..."></textarea></div>
+      <div><label>Fecha y hora preferida</label><input id="fDate" type="text" placeholder="Ej. Viernes 4pm"></div>
+      <button class="submit-btn" onclick="bookNow()">Copiar y reservar por Instagram</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Sígueme en <a href="https://www.instagram.com/nailedbyycarla" target="_blank">@nailedbyycarla</a>
+</footer>
+
+<script>
+// ---- Real work photos in gallery ----
+const workPhotos = Array.from({length:9},(_,i)=>`assets/work_${i}.png`);
+const galleryGrid = document.getElementById('galleryGrid');
+workPhotos.forEach(src=>{
+  const d=document.createElement('div');
+  d.className='g-item';
+  const img=document.createElement('img');
+  img.src=src;
+  d.appendChild(img);
+  d.onclick=()=>{
+    document.getElementById('lightboxImg').src=src;
+    document.getElementById('lightbox').classList.add('open');
+  };
+  galleryGrid.appendChild(d);
+});
+
+// ---- Floating decorative layer (kawaii icons / crystal / axolotl) ----
+const floatAssets = [
+  ...Array.from({length:10},(_,i)=>`assets/float_kawaii_${i}.png`),
+  'assets/float_crystal.png','assets/float_axolotl.png'
+];
+document.querySelectorAll('section').forEach(sec=>{
+  const layer=document.createElement('div');
+  layer.className='decor-layer';
+  const n = 4 + Math.floor(Math.random()*3);
+  for(let i=0;i<n;i++){
+    const img=document.createElement('img');
+    img.src = floatAssets[Math.floor(Math.random()*floatAssets.length)];
+    const size = 20+Math.random()*22;
+    img.style.width=size+'px';
+    img.style.left = (Math.random()*92)+'%';
+    img.style.top = (Math.random()*88)+'%';
+    img.style.animationDelay = (Math.random()*6)+'s';
+    img.style.animationDuration = (7+Math.random()*5)+'s';
+    layer.appendChild(img);
+  }
+  sec.prepend(layer);
+});
+
+// ---- Bag scroll animation (pouch/bowler style) ----
+const bagSection = document.getElementById('bagSection');
+const bag3d = document.getElementById('bag3d');
+const bagFlap = document.getElementById('bagFlap');
+const burstLayer = document.getElementById('burstLayer');
+const peekText = document.getElementById('peekText');
+
+const burstAssets = [
+  ...[2,5,8,11,14,17,20,23,26,29].map(i=>`assets/bag_grid_rows_${i}.png`),
+  'assets/bag_gold_nail.png','assets/bag_glitter_cluster.png','assets/bag_nude_cluster.png',
+  ...[3,9,15,21,27,33].map(i=>`assets/bag_tools_cluster_${i}.png`)
+];
+const bursts = burstAssets.map((src,i)=>{
+  const el=document.createElement('div');
+  el.className='burst-item';
+  const size = 50+Math.random()*58;
+  el.style.width=size+'px'; el.style.height=size+'px';
+  el.style.left = (105+Math.random()*70-35)+'px';
+  el.style.top = '150px';
+  const img=document.createElement('img'); img.src=src;
+  el.appendChild(img);
+  burstLayer.appendChild(el);
+  return {
+    el,
+    delay: (i/burstAssets.length)*0.6,
+    driftX:(Math.random()-0.5)*300,
+    restY: 70+Math.random()*100,
+    spin:(Math.random()-0.5)*36,
+    bobPhase: Math.random()*Math.PI*2,
+    bobAmp: 4+Math.random()*6,
+    settledLocal:0
+  };
+});
+
+const easeOutCubic = t => 1-Math.pow(1-t,3);
+const easeOutBack = t => { const c=1.6; return 1+c*Math.pow(t-1,3)+c*Math.pow(t-1,2); };
+
+let targetProgress = 0;
+let current = 0;
+
+function onScroll(){
+  const rect = bagSection.getBoundingClientRect();
+  const total = rect.height - window.innerHeight;
+  // react from far away: the sequence is already underway well before the
+  // bag reaches the top of the screen, not only once it's fully in view
+  const lead = window.innerHeight * 1.1;
+  let progress = (lead - rect.top) / (lead + total);
+  targetProgress = Math.max(0, Math.min(1, progress));
+}
+
+// single animation loop: eases toward the scroll target every frame for a
+// weighted, fluid motion instead of snapping 1:1 to scroll position
+function animate(t){
+  current += (targetProgress-current)*0.085;
+
+  // phase 1 (0-0.3): bag tilts and settles into frame, with a subtle zoom
+  const tiltRaw = Math.min(1, current/0.3);
+  const tilt = easeOutCubic(tiltRaw);
+  const ry = -34 + 34*tilt;
+  const rx = 14 - 14*tilt;
+  const travelY = -26 + 26*tilt;
+  const scale = 0.82 + 0.2*easeOutBack(tiltRaw);
+  const rz = (1-tiltRaw) * -4;
+  bag3d.style.transform = `translateY(${travelY}px) scale(${scale}) rotateY(${ry}deg) rotateX(${rx}deg) rotateZ(${rz}deg)`;
+
+  // phase 2 (0.28-0.46): flap pops open with a slight overshoot, not a flat swing
+  const openRaw = Math.max(0, Math.min(1, (current-0.28)/0.18));
+  const openT = easeOutBack(openRaw);
+  bagFlap.style.transform = `translateZ(8px) rotateX(${-openT*132}deg)`;
+  peekText.style.opacity = openRaw>0.3 ? 1 : 0;
+
+  // phase 3 (0.38-0.85): items pop out and settle (no falling)
+  const burstT = Math.max(0, Math.min(1, (current-0.38)/0.47));
+  bursts.forEach(b=>{
+    const local = Math.max(0, Math.min(1, (burstT-b.delay)/(1-b.delay)));
+    b.settledLocal = easeOutBack(local);
+    b.el.style.opacity = local>0 ? 1 : 0;
+    const rise = b.settledLocal*b.restY;
+    const bob = Math.sin(t/900 + b.bobPhase)*b.bobAmp*Math.min(1,b.settledLocal);
+    b.el.style.transform = `translate(${b.driftX*b.settledLocal}px, ${-rise+bob}px) rotate(${b.spin*b.settledLocal}deg)`;
+  });
+
+  requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
+
+window.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+function openServices(){
+  document.getElementById('exploreCard').classList.add('open');
+  document.getElementById('servicesGrid').classList.add('open');
+}
+function bookService(name){
+  document.getElementById('fService').value = name;
+  document.getElementById('booking').scrollIntoView({behavior:'smooth'});
+}
+
+function bookNow(){
+  const name=document.getElementById('fName').value||'—';
+  const phone=document.getElementById('fPhone').value||'—';
+  const service=document.getElementById('fService').value;
+  const length=document.getElementById('fLength').value;
+  const shape=document.getElementById('fShape').value;
+  const design=document.getElementById('fDesign').value||'—';
+  const date=document.getElementById('fDate').value||'—';
+  const text = `Hola! Quiero reservar:\nNombre: ${name}\nTeléfono: ${phone}\nServicio: ${service}\nLargo: ${length}\nForma: ${shape}\nDiseño: ${design}\nFecha/hora: ${date}`;
+  navigator.clipboard.writeText(text).then(()=>{
+    alert('Detalles copiados ✓ Pégalos en el chat de Instagram.');
+    window.open('https://www.instagram.com/nailedbyycarla','_blank');
+  });
+}
+</script>
+</body>
+</html>
